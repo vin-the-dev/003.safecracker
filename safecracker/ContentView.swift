@@ -23,6 +23,7 @@ struct ContentView: View {
     }
     
     @State var rotation: Double = 0.0
+    let rotationGesture = RotationGesture(minimumAngleDelta: Angle(degrees: 5))
     
     var body: some View {
         GeometryReader { metric in
@@ -33,24 +34,28 @@ struct ContentView: View {
                             self.tick(at: tick)
                         }
                     }
-                    .rotationEffect(Angle.degrees(Double(rotation)/(100) * 360))
+                    .rotationEffect(Angle.degrees(rotation))
                 }
-                .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,
+                .frame(minWidth: 0,
                        maxWidth: metric.size.width - 25,
-                       minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,
+                       minHeight: 0,
                        maxHeight: metric.size.height * 0.5 - 25,
-                       alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                       alignment: .center)
                 .overlay(
                     Circle().stroke(Color.primary, lineWidth: 5)
                 )
-                
             }
-            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,
-                   maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
+            .gesture(RotationGesture().onChanged({ (angle) in
+                rotation = angle.degrees
+                print(angle)
+            }))
+            .frame(minWidth: 0,
+                   maxWidth: .infinity,
                    minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/,
                    maxHeight: metric.size.height * 0.5,
                    alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 //            .background(Color.red)
+            
         }
     }
 }
