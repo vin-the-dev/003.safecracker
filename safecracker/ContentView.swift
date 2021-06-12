@@ -47,7 +47,16 @@ struct ContentView: View {
             }
             .gesture(RotationGesture().onChanged({ (angle) in
                 rotation = angle.degrees
-                print(angle)
+                print(angle.degrees.rounded())
+                if(angle.degrees.rounded() == 50.0) {
+                    let generator = UIImpactFeedbackGenerator(style: .heavy)
+                    generator.impactOccurred()
+                }
+                else {
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
+                }
+//                print(generator)
             }))
             .frame(minWidth: 0,
                    maxWidth: .infinity,
